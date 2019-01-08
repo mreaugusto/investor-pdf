@@ -33,7 +33,6 @@ public class Main {
 			.map(BrokerReport::getExecutedOrders)
 			.flatMap(Collection::stream)
 			.sorted(Comparator.comparing(Order::getTicker))
-			.peek(System.out::println)
 			.collect(Collectors.toMap(Order::getTicker, Order::getAmount, BigDecimal::add));
 		
 		for(String ticker : wallet.keySet()) {
