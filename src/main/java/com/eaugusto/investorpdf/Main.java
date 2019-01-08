@@ -1,12 +1,17 @@
 package com.eaugusto.investorpdf;
 
 import java.io.File;
+import java.math.BigDecimal;
 import java.net.URISyntaxException;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import com.eaugusto.investorpdf.api.BrokerReport;
 import com.eaugusto.investorpdf.api.Order;
-import com.eaugusto.investorpdf.model.Broker;
-import com.eaugusto.investorpdf.utils.BrokerParser;
+import com.eaugusto.investorpdf.facade.ClearFacade;
 import com.eaugusto.investorpdf.utils.PDFUtils;
 
 public class Main {
@@ -20,27 +25,20 @@ public class Main {
 			throw new RuntimeException(e);
 		}
 		
-		String ticker = "ALL";
-
 		File[] files = folder.listFiles();
 
-		for(File file : files) {
-			BrokerReport brokerReport = BrokerParser.getReport(PDFUtils.getTextFromPDF(file), Broker.CLEAR);
-
-			System.out.println("Data do Relatório " + brokerReport.getExecutionDate());
-			System.out.println("Relatório de número " + brokerReport.getReportNumber());
-			for(Order order : brokerReport.getExecutedOrders()) {
-				if(ticker == "ALL" || order.getTicker().equals(ticker)) {
-					System.out.print(order.isBuyElseAsk() ? "COMPRA " : "VENDA ");
-					System.out.printf("%s => %f * %f = %f\n", order.getTicker(), order.getAmount(), order.getPrice(), order.getOperationPrice());
-				}
-			}
-
-			System.out.println("Taxa de Liquidação " + brokerReport.getSettlementFee());
-			System.out.println("Emolumentos " + brokerReport.getTradingFee());
-			System.out.println("Total do Relatório " + brokerReport.getReportTotal() + "\n\n\n");
-
+		Map<String, BigDecimal> wallet = Arrays.asList(files)
+			.stream()
+			.map(ClearFacade::getReport)
+			.map(BrokerReport::getExecutedOrders)
+			.flatMap(Collection::stream)
+			.sorted(Comparator.comparing(Order::getTicker))
+			.peek(System.out::println)
+			.collect(Collectors.toMap(Order::getTicker, Order::getAmount, BigDecimal::add));
+		
+		for(String ticker : wallet.keySet()) {
+			System.out.println(ticker + " -> " + wallet.get(ticker));
 		}
 	}
-
+//inconsistencias: ITUB, KNCR11, KNRI11
 }

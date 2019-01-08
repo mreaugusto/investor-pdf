@@ -36,15 +36,14 @@ public class ClearOrder implements Order {
 		
 		String[] columns = line.substring(line.length() - currentIndex).split(" ");
 		amount = newBigDecimal(columns[0]);
-		price = newBigDecimal(columns[1]);
 		operationPrice = newBigDecimal(columns[2]);
+		if(!isBuyElseAsk) {
+			amount = amount.negate();
+			operationPrice = operationPrice.negate();
+		}
+		price = newBigDecimal(columns[1]);
 	}
 	
-	@Override
-	public Boolean isBuyElseAsk() {
-		return isBuyElseAsk;
-	}
-
 	@Override
 	public String getTicker() {
 		return ticker;
@@ -63,5 +62,16 @@ public class ClearOrder implements Order {
 	@Override
 	public BigDecimal getOperationPrice() {
 		return operationPrice;
+	}
+
+	@Override
+	public Order same() {
+		return this;
+	}
+
+	@Override
+	public String toString() {
+		return "ClearOrder [ticker=" + ticker + ", amount=" + amount + ", price="
+				+ price + ", operationPrice=" + operationPrice + "]";
 	}
 }
