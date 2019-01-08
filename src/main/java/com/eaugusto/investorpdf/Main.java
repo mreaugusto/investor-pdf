@@ -20,7 +20,7 @@ public class Main {
 			throw new RuntimeException(e);
 		}
 		
-		String ticker = "BRSR6";
+		String ticker = "ALL";
 
 		File[] files = folder.listFiles();
 
