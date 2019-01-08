@@ -10,3 +10,4 @@ Supported brokers:
 
 ## Clear
 - Place your reports in src/main/resouces/clear folder
+- The Clear doesn't provide a report entry for shares unfolding (desdobramentos)
