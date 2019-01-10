@@ -3,9 +3,11 @@ package com.eaugusto.investorpdf;
 import java.io.File;
 import java.math.BigDecimal;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Comparator;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -35,9 +37,10 @@ public class Main {
 			.sorted(Comparator.comparing(Order::getTicker))
 			.collect(Collectors.toMap(Order::getTicker, Order::getAmount, BigDecimal::add));
 		
-		for(String ticker : wallet.keySet()) {
+		List<String> tickerList = new ArrayList<>(wallet.keySet());
+		tickerList.sort(Comparator.naturalOrder());
+		for(String ticker : tickerList) {
 			System.out.println(ticker + " -> " + wallet.get(ticker));
 		}
 	}
-//inconsistencias: ITUB, KNCR11, KNRI11
 }
