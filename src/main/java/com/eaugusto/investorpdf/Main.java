@@ -25,17 +25,15 @@ public class Main {
 		} catch (URISyntaxException e) {
 			throw new RuntimeException(e);
 		}
-		
+
 		File[] files = folder.listFiles();
 
 		List<Order> allOrders = Arrays.asList(files)
-			.stream()
-			.map(ClearFacade::getReport)
-			.map(BrokerReport::getExecutedOrders)
-			.flatMap(Collection::stream)
-//			.sorted(Comparator.comparing(Order::getTicker))
-//			.sorted(Comparator.comparing(Order::getBrokerReport().getExecutionDate()))
-			.collect(Collectors.toList());
+				.stream()
+				.map(ClearFacade::getReport)
+				.map(BrokerReport::getExecutedOrders)
+				.flatMap(Collection::stream)
+				.collect(Collectors.toList());
 
 		for(Order o : allOrders) {
 			String ticker = o.getTicker();
@@ -47,7 +45,6 @@ public class Main {
 			LocalDate executionDate = o.getBrokerReport().getExecutionDate();
 			System.out.printf(new Locale("pt", "BR"), "%s; %,.2f; %,.2f; %,.2f; %,.2f; %,.2f; %s\n", ticker, price, amount, operationPrice, liquidity, settlement, executionDate);
 		}
-
+		//inconsistencias: ITUB
 	}
-//inconsistencias: ITUB
 }

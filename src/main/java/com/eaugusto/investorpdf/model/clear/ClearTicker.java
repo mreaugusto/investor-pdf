@@ -27,8 +27,8 @@ public class ClearTicker implements Ticker {
 		put("FII HG REAL", "HGRE11");
 		put("FII HOTEL MX", "HTMX11");
 		put("FII JS REAL", "JSRE11");
-		put("FII KINEA RI", "KNRI11");
-		put("FII KINEA", "KNCR11");
+		put("FII KINEA RI", "KNCR11");
+		put("FII KINEA", "KNRI11");
 		put("FII MALLS BP", "MALL11");
 		put("FII RBRHGRAD", "RBRR11");
 		put("FII VINCI SC", "VISC11");
