@@ -3,10 +3,11 @@ package com.eaugusto.investorpdf;
 import java.io.File;
 import java.math.BigDecimal;
 import java.net.URISyntaxException;
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Comparator;
-import java.util.Map;
+import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 import com.eaugusto.investorpdf.api.BrokerReport;
@@ -27,17 +28,26 @@ public class Main {
 		
 		File[] files = folder.listFiles();
 
-		Map<String, BigDecimal> wallet = Arrays.asList(files)
+		List<Order> allOrders = Arrays.asList(files)
 			.stream()
 			.map(ClearFacade::getReport)
 			.map(BrokerReport::getExecutedOrders)
 			.flatMap(Collection::stream)
-			.sorted(Comparator.comparing(Order::getTicker))
-			.collect(Collectors.toMap(Order::getTicker, Order::getAmount, BigDecimal::add));
-		
-		for(String ticker : wallet.keySet()) {
-			System.out.println(ticker + " -> " + wallet.get(ticker));
+//			.sorted(Comparator.comparing(Order::getTicker))
+//			.sorted(Comparator.comparing(Order::getBrokerReport().getExecutionDate()))
+			.collect(Collectors.toList());
+
+		for(Order o : allOrders) {
+			String ticker = o.getTicker();
+			BigDecimal price = o.getPrice();
+			BigDecimal amount = o.getAmount();
+			BigDecimal operationPrice = o.getOperationPrice();
+			BigDecimal liquidity = null;
+			BigDecimal settlement = null;
+			LocalDate executionDate = o.getBrokerReport().getExecutionDate();
+			System.out.printf(new Locale("pt", "BR"), "%s; %,.2f; %,.2f; %,.2f; %,.2f; %,.2f; %s\n", ticker, price, amount, operationPrice, liquidity, settlement, executionDate);
 		}
+
 	}
-//inconsistencias: ITUB, KNCR11, KNRI11
+//inconsistencias: ITUB
 }

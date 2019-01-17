@@ -2,6 +2,7 @@ package com.eaugusto.investorpdf.model.clear;
 
 import java.math.BigDecimal;
 
+import com.eaugusto.investorpdf.api.BrokerReport;
 import com.eaugusto.investorpdf.api.Order;
 import com.eaugusto.investorpdf.api.Ticker;
 
@@ -16,8 +17,10 @@ public class ClearOrder implements Order {
 	BigDecimal operationPrice;
 	
 	Ticker tickerUtils = new ClearTicker();
+	private BrokerReport brokerReport;
 	
-	public ClearOrder(String line) {
+	public ClearOrder(String line, BrokerReport brokerReport) {
+		this.brokerReport = brokerReport;
 		String isBuy = line.substring(10, 11);
 		isBuyElseAsk = isBuy.equals("C") ? Boolean.TRUE : isBuy.equals("V") ? Boolean.FALSE : null;
 		
@@ -32,6 +35,8 @@ public class ClearOrder implements Order {
 		if(tickerIndexStart >= 0) {
 			String tickerLine = line.substring(tickerIndexStart, line.length() - currentIndex);
 			ticker = tickerUtils.getTicker(tickerLine);
+			if(ticker == null) 
+				System.err.println("Ticker não encontrado: " + tickerLine);
 		}
 		
 		String[] columns = line.substring(line.length() - currentIndex).split(" ");
@@ -73,5 +78,10 @@ public class ClearOrder implements Order {
 	public String toString() {
 		return "ClearOrder [ticker=" + ticker + ", amount=" + amount + ", price="
 				+ price + ", operationPrice=" + operationPrice + "]";
+	}
+
+	@Override
+	public BrokerReport getBrokerReport() {
+		return brokerReport;
 	}
 }

@@ -9,4 +9,5 @@ public interface Order {
 	BigDecimal getPrice();
 	BigDecimal getOperationPrice();
 	Order same();
+	BrokerReport getBrokerReport();
 }

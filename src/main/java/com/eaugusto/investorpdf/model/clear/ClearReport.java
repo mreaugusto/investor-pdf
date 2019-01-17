@@ -55,7 +55,7 @@ public class ClearReport implements BrokerReport {
 	@Override
 	public List<Order> getExecutedOrders() {
 		List<String> orderLines = sections.get("Orders").getSectionContent();
-		return orderLines.stream().map(ClearOrder::new).collect(Collectors.toList());
+		return orderLines.stream().map(l -> {return new ClearOrder(l, this);}).collect(Collectors.toList());
 	}
 
 	@Override
