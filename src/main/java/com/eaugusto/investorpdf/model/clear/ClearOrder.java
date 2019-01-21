@@ -3,6 +3,7 @@ package com.eaugusto.investorpdf.model.clear;
 import java.math.BigDecimal;
 
 import com.eaugusto.investorpdf.api.BrokerReport;
+import com.eaugusto.investorpdf.api.InvestmentType;
 import com.eaugusto.investorpdf.api.Order;
 import com.eaugusto.investorpdf.api.Ticker;
 
@@ -15,6 +16,8 @@ public class ClearOrder implements Order {
 	BigDecimal amount;
 	BigDecimal price;
 	BigDecimal operationPrice;
+	boolean isFII;
+	InvestmentType investmentType;
 	
 	Ticker tickerUtils = new ClearTicker();
 	private BrokerReport brokerReport;
@@ -35,8 +38,16 @@ public class ClearOrder implements Order {
 		if(tickerIndexStart >= 0) {
 			String tickerLine = line.substring(tickerIndexStart, line.length() - currentIndex);
 			ticker = tickerUtils.getTicker(tickerLine);
-			if(ticker == null) 
+			if(ticker == null) {
 				System.err.println("Ticker não encontrado: " + tickerLine);
+			}
+			
+			isFII = tickerLine.startsWith("FII ");
+			if(isFII) {
+				investmentType = InvestmentType.INVESTMENT_FUND;
+			} else {
+				investmentType = InvestmentType.STOCK;
+			}
 		}
 		
 		String[] columns = line.substring(line.length() - currentIndex).split(" ");
@@ -76,12 +87,18 @@ public class ClearOrder implements Order {
 
 	@Override
 	public String toString() {
-		return "ClearOrder [ticker=" + ticker + ", amount=" + amount + ", price="
-				+ price + ", operationPrice=" + operationPrice + "]";
+		return "ClearOrder [isBuyElseAsk=" + isBuyElseAsk + ", ticker=" + ticker + ", amount=" + amount + ", price="
+				+ price + ", operationPrice=" + operationPrice + ", investmentType="
+				+ investmentType + "]";
 	}
 
 	@Override
 	public BrokerReport getBrokerReport() {
 		return brokerReport;
+	}
+
+	@Override
+	public InvestmentType getInvestmentType() {
+		return investmentType;
 	}
 }

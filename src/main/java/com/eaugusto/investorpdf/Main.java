@@ -11,6 +11,7 @@ import java.util.Locale;
 import java.util.stream.Collectors;
 
 import com.eaugusto.investorpdf.api.BrokerReport;
+import com.eaugusto.investorpdf.api.InvestmentType;
 import com.eaugusto.investorpdf.api.Order;
 import com.eaugusto.investorpdf.facade.ClearFacade;
 import com.eaugusto.investorpdf.utils.PDFUtils;
@@ -36,6 +37,7 @@ public class Main {
 				.collect(Collectors.toList());
 
 		for(Order o : allOrders) {
+			InvestmentType investmentType = o.getInvestmentType();
 			String ticker = o.getTicker();
 			BigDecimal price = o.getPrice();
 			BigDecimal amount = o.getAmount();
@@ -43,7 +45,7 @@ public class Main {
 			BigDecimal liquidity = null;
 			BigDecimal settlement = null;
 			LocalDate executionDate = o.getBrokerReport().getExecutionDate();
-			System.out.printf(new Locale("pt", "BR"), "%s; %,.2f; %,.2f; %,.2f; %,.2f; %,.2f; %s\n", ticker, price, amount, operationPrice, liquidity, settlement, executionDate);
+			System.out.printf(new Locale("pt", "BR"), "%s; %s; %,.2f; %,.2f; %,.2f; %,.2f; %,.2f; %s\n", investmentType, ticker, price, amount, operationPrice, liquidity, settlement, executionDate);
 		}
 		//inconsistencias: ITUB
 	}

@@ -19,6 +19,7 @@ public class ClearTicker implements Ticker {
 		put("QUALICORP", "QUAL3");
 		put("SANEPAR", "SAPR11");
 		put("TELEF BRASIL", "VIVT4");
+		put("AMBEV S/A", "ABEV3");
 		put("WIZ S.A.", "WIZS3");
 		put("FII ABC IMOB", "ABCP11");
 		put("FII BC FUND", "BRCR11");
@@ -45,7 +46,7 @@ public class ClearTicker implements Ticker {
 		String company = brokerLabel.substring(0, separatorIndex).trim();
 		String ticker = tickers.get(company);
 		if(ticker == null) {
-			throw new IllegalStateException("O ticker não foi encontrado!");
+			throw new IllegalStateException("O ticker " + company + " não foi encontrado!");
 		}
 		return ticker;
 	}

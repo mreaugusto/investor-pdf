@@ -10,4 +10,5 @@ public interface Order {
 	BigDecimal getOperationPrice();
 	Order same();
 	BrokerReport getBrokerReport();
+	InvestmentType getInvestmentType();
 }
