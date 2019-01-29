@@ -101,4 +101,67 @@ public class ClearOrder implements Order {
 	public InvestmentType getInvestmentType() {
 		return investmentType;
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((amount == null) ? 0 : amount.hashCode());
+		result = prime * result + ((brokerReport == null) ? 0 : brokerReport.hashCode());
+		result = prime * result + ((investmentType == null) ? 0 : investmentType.hashCode());
+		result = prime * result + ((isBuyElseAsk == null) ? 0 : isBuyElseAsk.hashCode());
+		result = prime * result + (isFII ? 1231 : 1237);
+		result = prime * result + ((operationPrice == null) ? 0 : operationPrice.hashCode());
+		result = prime * result + ((price == null) ? 0 : price.hashCode());
+		result = prime * result + ((ticker == null) ? 0 : ticker.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ClearOrder other = (ClearOrder) obj;
+		if (amount == null) {
+			if (other.amount != null)
+				return false;
+		} else if (!amount.equals(other.amount))
+			return false;
+		if (brokerReport == null) {
+			if (other.brokerReport != null)
+				return false;
+		} else if (!brokerReport.equals(other.brokerReport))
+			return false;
+		if (investmentType != other.investmentType)
+			return false;
+		if (isBuyElseAsk == null) {
+			if (other.isBuyElseAsk != null)
+				return false;
+		} else if (!isBuyElseAsk.equals(other.isBuyElseAsk))
+			return false;
+		if (isFII != other.isFII)
+			return false;
+		if (operationPrice == null) {
+			if (other.operationPrice != null)
+				return false;
+		} else if (!operationPrice.equals(other.operationPrice))
+			return false;
+		if (price == null) {
+			if (other.price != null)
+				return false;
+		} else if (!price.equals(other.price))
+			return false;
+		if (ticker == null) {
+			if (other.ticker != null)
+				return false;
+		} else if (!ticker.equals(other.ticker))
+			return false;
+		return true;
+	}
+	
+	
 }

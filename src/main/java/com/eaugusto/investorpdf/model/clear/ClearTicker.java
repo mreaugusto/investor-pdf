@@ -22,7 +22,6 @@ public class ClearTicker implements Ticker {
 		put("AMBEV S/A", "ABEV3");
 		put("WIZ S.A.", "WIZS3");
 		put("EZTEC", "EZTC3");
-		put("BANCO INTER", "BIDI4");
 		put("FII ABC IMOB", "ABCP11");
 		put("FII BC FUND", "BRCR11");
 		put("FII CSHG LOG", "HGLG11");

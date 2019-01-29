@@ -12,7 +12,6 @@ import org.apache.pdfbox.text.PDFTextStripper;
 public class PDFUtils {
 
 	public static String getTextFromPDF(File file) {
-		System.out.println("ANALYSIS OF FILE: " + file.getName());
 		PDFTextStripper pdfStripper = null;
 		PDDocument pdDoc = null;
 		COSDocument cosDoc = null;
@@ -29,7 +28,6 @@ public class PDFUtils {
 			pdfStripper.setEndPage(5);
 			parsedText = pdfStripper.getText(pdDoc);
 		} catch (IOException e) {
-			e.printStackTrace();
 			throw new RuntimeException(e);
 		} finally {
 			try {
