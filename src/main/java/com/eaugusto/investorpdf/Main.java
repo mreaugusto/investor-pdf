@@ -31,13 +31,7 @@ public class Main {
 			throw new RuntimeException(e);
 		}
 
-		File[] files = folder.listFiles(new FileFilter() {
-
-			@Override
-			public boolean accept(File pathname) {
-				return pathname.getName().endsWith(".pdf");
-			}
-		});
+		File[] files = folder.listFiles(p -> p.getName().endsWith(".pdf"));
 
 		Map<String, Integer> assetsAmount = new HashMap<>();	
 		Map<String, List<Order>> assetsOrders = new HashMap<>();
@@ -75,6 +69,7 @@ public class Main {
 		assetsOrders.entrySet().stream()
 		.map(e -> e.getValue())
 		.flatMap(Collection::stream)
+		.filter(o -> !o.getTicker().equals("ABCP11") && !o.getTicker().equals("ITUB4"))
 		.sorted((a,b) -> a.getBrokerReport().getExecutionDate().compareTo(b.getBrokerReport().getExecutionDate()))
 		.forEach(o -> {
 			InvestmentType investmentType = o.getInvestmentType();
